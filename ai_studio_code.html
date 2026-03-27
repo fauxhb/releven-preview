@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longshore Resort & SPA - About Us</title>
+    
+    <!-- Google Fonts to emulate Sensei's elegant typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables for Sensei-inspired color palette */
+        :root {
+            --bg-cream: #F9F8F5;
+            --text-dark: #2A312A;
+            --text-light: #5A635A;
+            --accent-green: #7A8976;
+            --border-color: #E2DFD8;
+            
+            --font-heading: 'Cinzel', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        .tag {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        /* Custom Interactive Links */
+        .luxury-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1rem;
+            margin-top: 1rem;
+            padding-bottom: 0.3rem;
+            position: relative;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .luxury-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .luxury-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background-color: var(--text-dark);
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .luxury-link span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            margin-right: 8px;
+            font-size: 1.2rem;
+            color: var(--accent-green);
+        }
+
+        .luxury-link:hover::after {
+            width: 100%;
+        }
+
+        .luxury-link:hover span {
+            transform: translateX(4px);
+        }
+
+        /* Layout & Sections */
+        .section {
+            padding: 8rem 5%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .grid-text-right {
+            grid-template-columns: 1.2fr 0.8fr;
+        }
+
+        .grid-text-left {
+            grid-template-columns: 0.8fr 1.2fr;
+        }
+
+        .text-content {
+            max-width: 600px;
+        }
+
+        .hero-center {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 12rem 5%;
+        }
+
+        .hero-center h2 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* High-End Image Wrappers */
+        .image-wrapper {
+            width: 100%;
+            height: 600px;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.05); /* Start slightly zoomed in for reveal effect */
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .reveal.active .image-wrapper img {
+            transform: scale(1); /* Zoom out smoothly when revealed */
+        }
+
+        /* Full Width Image Divider (Parallax effect) */
+        .image-divider {
+            width: 100%;
+            height: 70vh;
+            background-image: url('https://images.unsplash.com/photo-1579980076368-cc37b360c300?q=80&w=2531&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Creates the parallax effect on desktop */
+            margin-top: 5rem;
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered reveal for children */
+        .reveal.active .stagger {
+            opacity: 0;
+            animation: fadeUp 0.8s forwards cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .reveal.active .stagger:nth-child(1) { animation-delay: 0.1s; }
+        .reveal.active .stagger:nth-child(2) { animation-delay: 0.2s; }
+        .reveal.active .stagger:nth-child(3) { animation-delay: 0.3s; }
+        .reveal.active .stagger:nth-child(4) { animation-delay: 0.4s; }
+        .reveal.active .stagger:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr !important;
+                gap: 3rem;
+            }
+            .section {
+                padding: 5rem 5%;
+            }
+            .image-wrapper {
+                height: 450px;
+                order: -1; /* Always put image on top on mobile */
+            }
+            .hero-center {
+                padding: 8rem 5%;
+            }
+            .image-divider {
+                background-attachment: scroll; /* Disable parallax on mobile for better performance */
+                height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: About Us (Hero Style) -->
+    <section class="section hero-center reveal">
+        <span class="tag stagger">About Us</span>
+        <h2 class="stagger">Choreography of change</h2>
+        <p class="stagger" style="font-size: 1.3rem; max-width: 700px; margin: 0 auto;">
+            Set your mind to change and it will come. At Longshore Resort & SPA, elements come together as a background, a teacher & a current that guides you towards your wellness & lifestyle goals.
+        </p>
+    </section>
+
+    <!-- Section 2: Elements (Image Left, Text Right) -->
+    <section class="section">
+        <div class="container grid-text-right reveal">
+            <div class="image-wrapper stagger">
+                <img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Misty landscape representing geothermal waters">
+            </div>
+            <div class="text-content">
+                <span class="tag stagger">Elements</span>
+                <h2 class="stagger">Geothermal waters of Longshore</h2>
+                <p class="stagger">
+                    Whole region of Western Lithuania sits atop an ancient underground sea rich with minerals. For thousands of years the waters sat hidden deep in the geome without a contact with the external world until we accessed it through the Longshore Well.
+                </p>
+                <div class="stagger">
+                    <a href="#" class="luxury-link"><span>›</span> More about geothermal properties of the water</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Method (Text Left, Image Right) -->
+    <section class="section">
+        <div class="container grid-text-left reveal">
+            <div class="text-content">
+                <span class="tag stagger">Method</span>
+                <h2 class="stagger">Halokinetic Concept</h2>
+                <p class="stagger">
+                    Inspired by halokinesis—the geological phenomenon of salt flowing through Earth’s ancient structures—this is transformative method exclusive to the HILTON Longshore Resort & SPA.
+                </p>
+                <p class="stagger">
+                    It is built upon extended exposure to thermal tension and sedative properties of bromide-rich geothermal waters. It works as a foundation for therapeutic, cognitive & behavioral change programs.
+                </p>
+                <div class="stagger" style="display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;">
+                    <a href="#" class="luxury-link"><span>›</span> About our change programs</a>
+                    <a href="#" class="luxury-link"><span>›</span> About the Parallel cohorts</a>
+                </div>
+            </div>
+            <div class="image-wrapper stagger">
+                <img src="https://images.unsplash.com/photo-1581182800629-7d90925ad072?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Abstract salt and mineral formations">
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Width Image Divider -->
+    <div class="image-divider reveal"></div>
+
+    <!-- Section 4: Place (Full Width Banner Style) -->
+    <section class="section" style="background-color: var(--text-dark); color: var(--bg-cream); text-align: center; padding: 10rem 5%;">
+        <div class="reveal" style="max-width: 900px; margin: 0 auto;">
+            <span class="tag stagger" style="color: var(--accent-green);">Place</span>
+            <h2 class="stagger" style="color: var(--bg-cream);">Enter Longshore, the immersion grounds</h2>
+            <p class="stagger" style="color: #A0A5A0;">
+                We call Longshore an immersion grounds. It's a special place where natural elements come together to form a unique background for wellness & lifestyle change programs, but the magic of which can be felt even as you're passing through.
+            </p>
+            <p class="stagger" style="color: #A0A5A0;">
+                At the heart of Longshore sits Longshore Resort & SPA, a unique 5-star geothermal SPA & a surprisingly-intimate 200-room hotel with a focus on restorative & transformational seasonal experiences.
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for scroll-triggered animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Triggers when 15% of the element is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add active class to trigger CSS transitions
+                        entry.target.classList.add('active');
+                        // Stop observing once revealed so it doesn't replay on scroll up
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Select all elements with the 'reveal' class
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
